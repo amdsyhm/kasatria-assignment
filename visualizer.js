@@ -46,14 +46,25 @@ function makeTile(row) {
     <span>${escapeHtml(row.country)} · ${row.age}</span>
     <span>${escapeHtml(row.interest)}</span>
     <small>$${Number(row.netWorth).toLocaleString("en-US")}</small>`;
+  let pointerStart = null;
+  let lastPointerSelection = 0;
   const selectPerson = event => {
     event.preventDefault();
     event.stopPropagation();
+    if (event.type === "click" && performance.now() - lastPointerSelection < 300) return;
+    if (event.type === "pointerup") lastPointerSelection = performance.now();
     if (selectedTile) selectedTile.classList.remove("selected");
     selectedTile = element;
     selectedTile.classList.add("selected");
     window.dispatchEvent(new CustomEvent("person-selected", { detail: row }));
   };
+  element.addEventListener("pointerdown", event => { pointerStart = { x: event.clientX, y: event.clientY }; });
+  element.addEventListener("pointerup", event => {
+    if (!pointerStart) return;
+    const moved = Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y);
+    pointerStart = null;
+    if (moved < 8) selectPerson(event);
+  });
   element.addEventListener("click", selectPerson);
   element.addEventListener("keydown", event => {
     if (event.key === "Enter" || event.key === " ") selectPerson(event);

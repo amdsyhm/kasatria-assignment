@@ -100,7 +100,7 @@ window.addEventListener("person-selected", event => {
   countryFilter.value = "";
   interestFilter.value = "";
   sortBy.value = "";
-  filterRows();
+  searchInput.dispatchEvent(new Event("input", { bubbles: true }));
   dataPanel.scrollIntoView({ behavior: "smooth", block: "start" });
   setStatus(`Selected ${event.detail.name}.`, "success");
 });
