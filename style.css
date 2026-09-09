@@ -1,0 +1,43 @@
+:root { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #17212b; background: #f5f7fb; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; }
+.page-shell { min-height: 100vh; display: grid; place-items: center; gap: 20px; padding: 24px; background: radial-gradient(circle at top, #fff 0, #f5f7fb 55%, #e9eef7 100%); }
+.auth-card, .data-panel { width: min(100%, 760px); padding: 40px 44px; text-align: center; background: rgba(255,255,255,.96); border: 1px solid #e5eaf2; border-radius: 18px; box-shadow: 0 18px 60px rgba(33,53,85,.12); }
+.auth-card { width: min(100%, 460px); }
+.brand-mark { width: 46px; height: 46px; margin: 0 auto 22px; display: grid; place-items: center; border-radius: 12px; color: #fff; background: #1769aa; font-weight: 800; font-size: 22px; }
+.eyebrow { margin: 0 0 12px; color: #1769aa; font-size: 12px; font-weight: 800; letter-spacing: .14em; }
+h1, h2 { margin: 0; letter-spacing: -.04em; }
+h1 { font-size: clamp(30px, 7vw, 40px); }
+h2 { font-size: 24px; }
+.subtitle { margin: 14px auto 28px; max-width: 320px; color: #667085; line-height: 1.6; }
+.google-button-wrap { min-height: 44px; display: flex; justify-content: center; }
+.fallback-button { display: none; margin: 0 auto; padding: 12px 22px; border: 0; border-radius: 8px; color: #fff; background: #4285f4; font-weight: 700; cursor: pointer; }
+.status { min-height: 22px; margin: 22px 0 0; color: #667085; font-size: 13px; }
+.status.success { color: #16803c; }
+.status.error { color: #b42318; }
+.profile { display: flex; align-items: center; gap: 12px; margin-top: 20px; padding: 12px; text-align: left; border-radius: 12px; background: #f3f7fc; }
+.profile-picture { width: 40px; height: 40px; border-radius: 50%; }
+.profile strong, .profile span { display: block; }
+.profile span { margin-top: 3px; color: #667085; font-size: 12px; }
+.data-panel { text-align: left; }
+.data-panel-header { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.data-panel-header .eyebrow { margin-bottom: 6px; }
+.record-count { color: #667085; font-size: 13px; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { padding: 11px 12px; text-align: left; border-bottom: 1px solid #e5eaf2; }
+th { color: #667085; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+.visualizer-panel { width: min(100%, 1100px); padding: 28px; background: #101828; border-radius: 18px; box-shadow: 0 18px 60px rgba(33,53,85,.18); }
+.visualizer-panel h2, .visualizer-panel .record-count { color: #fff; }
+.visualizer-panel .eyebrow { color: #84cae8; }
+.layout-buttons { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.layout-buttons button { padding: 9px 14px; border: 1px solid #84cae8; border-radius: 5px; color: #d9f3ff; background: transparent; cursor: pointer; font-size: 12px; font-weight: 700; letter-spacing: .06em; }
+.layout-buttons button:hover { color: #101828; background: #84cae8; }
+.scene { width: 100%; height: 620px; overflow: hidden; border-radius: 10px; background: radial-gradient(circle, #1d2939 0, #070b12 78%); }
+.scene > div { width: 100%; height: 100%; }
+.person-tile { width: 92px; min-height: 118px; padding: 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; overflow: hidden; border: 2px solid; border-radius: 8px; color: #f8fafc; background: rgba(15,23,42,.94); box-shadow: 0 4px 14px rgba(0,0,0,.25); font-size: 9px; text-align: center; backface-visibility: hidden; }
+.person-tile img { width: 38px; height: 38px; object-fit: cover; border-radius: 50%; }
+.person-tile strong { width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
+.person-tile span { color: #cbd5e1; }
+.person-tile small { color: #f8fafc; font-size: 9px; }
+@media (max-width: 600px) { .auth-card, .data-panel { padding: 32px 20px; } .data-panel-header { align-items: start; flex-direction: column; } }
