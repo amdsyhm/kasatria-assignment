@@ -47,18 +47,21 @@ function makeTile(row) {
     <span>${escapeHtml(row.interest)}</span>
     <small>$${Number(row.netWorth).toLocaleString("en-US")}</small>`;
   let pointerStart = null;
-  let lastPointerSelection = 0;
+  let lastSelection = 0;
   const selectPerson = event => {
+    if (performance.now() - lastSelection < 300) return;
+    lastSelection = performance.now();
     event.preventDefault();
-    event.stopPropagation();
-    if (event.type === "click" && performance.now() - lastPointerSelection < 300) return;
-    if (event.type === "pointerup") lastPointerSelection = performance.now();
+    if (event.type !== "pointerdown") event.stopPropagation();
     if (selectedTile) selectedTile.classList.remove("selected");
     selectedTile = element;
     selectedTile.classList.add("selected");
     window.dispatchEvent(new CustomEvent("person-selected", { detail: row }));
   };
-  element.addEventListener("pointerdown", event => { pointerStart = { x: event.clientX, y: event.clientY }; });
+  element.addEventListener("pointerdown", event => {
+    pointerStart = { x: event.clientX, y: event.clientY };
+    selectPerson(event);
+  });
   element.addEventListener("pointerup", event => {
     if (!pointerStart) return;
     const moved = Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y);
