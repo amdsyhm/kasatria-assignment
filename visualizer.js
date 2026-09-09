@@ -35,6 +35,9 @@ function escapeHtml(value) {
 function makeTile(row) {
   const element = document.createElement("article");
   element.className = "person-tile";
+  element.setAttribute("role", "button");
+  element.setAttribute("tabindex", "0");
+  element.setAttribute("aria-label", `Select ${row.name}`);
   element.style.borderColor = colorForNetWorth(row.netWorth);
   element.innerHTML = `
     <img src="${escapeHtml(row.photo)}" alt="" loading="lazy" onerror="this.style.display='none'" />
@@ -42,7 +45,15 @@ function makeTile(row) {
     <span>${escapeHtml(row.country)} · ${row.age}</span>
     <span>${escapeHtml(row.interest)}</span>
     <small>$${Number(row.netWorth).toLocaleString("en-US")}</small>`;
-  element.addEventListener("click", () => window.dispatchEvent(new CustomEvent("person-selected", { detail: row })));
+  const selectPerson = event => {
+    event.preventDefault();
+    event.stopPropagation();
+    window.dispatchEvent(new CustomEvent("person-selected", { detail: row }));
+  };
+  element.addEventListener("click", selectPerson);
+  element.addEventListener("keydown", event => {
+    if (event.key === "Enter" || event.key === " ") selectPerson(event);
+  });
   return new CSS3DObject(element);
 }
 
