@@ -12,15 +12,9 @@
       <div class="brand-mark" aria-hidden="true">K</div>
       <p class="eyebrow">KASATRIA ASSIGNMENT</p>
       <h1 id="welcome-title">Welcome back</h1>
-      <p class="subtitle">Sign in with Google to load the visualization data.</p>
-      <div id="google-button" class="google-button-wrap"></div>
-      <button id="manual-login" class="fallback-button" type="button">Sign in with Google</button>
-      <button id="load-sheet" class="fallback-button" type="button">Load Google Sheet</button>
-      <p id="status" class="status" role="status">Waiting for Google login setup.</p>
-      <div id="profile" class="profile" hidden>
-        <img id="profile-picture" class="profile-picture" alt="" />
-        <div><strong id="profile-name"></strong><span id="profile-email"></span></div>
-      </div>
+      <p id="welcome-email" class="subtitle">Sign in with Google to load the visualization data.</p>
+      <button id="sign-in" class="google-signin-button" type="button"><span class="google-g">G</span> Sign in with Google</button>
+      <p id="status" class="status" role="status">Ready to sign in.</p>
     </section>
 
     <section id="data-panel" class="data-panel" hidden aria-labelledby="data-title">
@@ -28,28 +22,23 @@
         <div><p class="eyebrow">GOOGLE SHEETS</p><h2 id="data-title">Loaded records</h2></div>
         <span id="record-count" class="record-count"></span>
       </div>
+      <div class="search-row">
+        <label class="search-label" for="search-records">Search records</label>
+        <input id="search-records" type="search" placeholder="Name, country, interest, or net worth" autocomplete="off" />
+        <button id="clear-search" class="clear-button" type="button">Show all</button>
+      </div>
       <div class="table-wrap"><table><thead><tr><th>Name</th><th>Age</th><th>Country</th><th>Interest</th><th>Net worth</th></tr></thead><tbody id="data-body"></tbody></table></div>
     </section>
 
     <section id="visualizer-panel" class="visualizer-panel" hidden aria-labelledby="visualizer-title">
-      <div class="data-panel-header">
-        <div><p class="eyebrow">THREE.JS VISUALIZATION</p><h2 id="visualizer-title">People data explorer</h2></div>
-        <span class="record-count">Drag to rotate · Scroll to zoom</span>
-      </div>
-      <div id="layout-buttons" class="layout-buttons" role="group" aria-label="Tile layouts">
-        <button type="button" data-layout="table">TABLE</button>
-        <button type="button" data-layout="sphere">SPHERE</button>
-        <button type="button" data-layout="helix">HELIX</button>
-        <button type="button" data-layout="grid">GRID</button>
-      </div>
+      <div class="data-panel-header"><div><p class="eyebrow">THREE.JS VISUALIZATION</p><h2 id="visualizer-title">People data explorer</h2></div><span class="record-count">Drag to rotate · Scroll to zoom</span></div>
+      <div id="layout-buttons" class="layout-buttons" role="group" aria-label="Tile layouts"><button type="button" data-layout="table">TABLE</button><button type="button" data-layout="sphere">SPHERE</button><button type="button" data-layout="helix">HELIX</button><button type="button" data-layout="grid">GRID</button></div>
       <div id="scene" class="scene" aria-label="3D people data visualization"></div>
     </section>
   </main>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="app.js"></script>
-  <script type="importmap">
-    {"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}
-  </script>
+  <script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}</script>
   <script type="module" src="visualizer.js"></script>
 </body>
 </html>
