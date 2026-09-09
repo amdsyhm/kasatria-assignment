@@ -9,7 +9,7 @@
 <body>
   <main class="page-shell">
     <section class="auth-card" aria-labelledby="welcome-title">
-      <div class="brand-mark" aria-hidden="true">K</div>
+      <img class="brand-logo" src="kasatria-logo.png" alt="Kasatria logo" />
       <p class="eyebrow">KASATRIA ASSIGNMENT</p>
       <h1 id="welcome-title">Welcome back</h1>
       <p id="welcome-email" class="subtitle">Sign in with Google to load the visualization data.</p>
@@ -27,11 +27,18 @@
         <input id="search-records" type="search" placeholder="Name, country, interest, or net worth" autocomplete="off" />
         <button id="clear-search" class="clear-button" type="button">Show all</button>
       </div>
+      <div class="filter-row" aria-label="Record filters">
+        <label>Country<select id="country-filter"><option value="">All countries</option></select></label>
+        <label>Interest<select id="interest-filter"><option value="">All interests</option></select></label>
+        <label>Sort by<select id="sort-by"><option value="">Default order</option><option value="age-asc">Age low to high</option><option value="age-desc">Age high to low</option><option value="worth-asc">Net worth low to high</option><option value="worth-desc">Net worth high to low</option></select></label>
+      </div>
       <div class="table-wrap"><table><thead><tr><th>Name</th><th>Age</th><th>Country</th><th>Interest</th><th>Net worth</th></tr></thead><tbody id="data-body"></tbody></table></div>
     </section>
 
     <section id="visualizer-panel" class="visualizer-panel" hidden aria-labelledby="visualizer-title">
-      <div class="data-panel-header"><div><p class="eyebrow">THREE.JS VISUALIZATION</p><h2 id="visualizer-title">People data explorer</h2></div><span class="record-count">Drag to rotate · Scroll to zoom</span></div>
+      <div class="data-panel-header"><div><p class="eyebrow">THREE.JS VISUALIZATION</p><h2 id="visualizer-title">People data explorer</h2></div><span class="record-count">200 tiles · interactive</span></div>
+      <p class="visualizer-help">Choose a layout, drag to rotate, scroll to zoom, and click any tile to find that person in the records table.</p>
+      <div class="legend"><span><i class="legend-swatch low"></i>Below $100K</span><span><i class="legend-swatch mid"></i>$100K–$200K</span><span><i class="legend-swatch high"></i>Above $200K</span></div>
       <div id="layout-buttons" class="layout-buttons" role="group" aria-label="Tile layouts"><button type="button" data-layout="table">TABLE</button><button type="button" data-layout="sphere">SPHERE</button><button type="button" data-layout="helix">HELIX</button><button type="button" data-layout="grid">GRID</button></div>
       <div id="scene" class="scene" aria-label="3D people data visualization"></div>
     </section>

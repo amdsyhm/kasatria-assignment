@@ -12,6 +12,9 @@ const dataBody = document.querySelector("#data-body");
 const searchInput = document.querySelector("#search-records");
 const clearSearchButton = document.querySelector("#clear-search");
 const recordCount = document.querySelector("#record-count");
+const countryFilter = document.querySelector("#country-filter");
+const interestFilter = document.querySelector("#interest-filter");
+const sortBy = document.querySelector("#sort-by");
 let allRows = [];
 let tokenClient;
 
@@ -25,9 +28,25 @@ function renderRows(rows) {
   recordCount.textContent = `${rows.length} of ${allRows.length} records`;
 }
 
+function populateFilters() {
+  const countries = [...new Set(allRows.map(row => row.country))].sort();
+  const interests = [...new Set(allRows.map(row => row.interest))].sort();
+  countryFilter.innerHTML = `<option value="">All countries</option>${countries.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join("")}`;
+  interestFilter.innerHTML = `<option value="">All interests</option>${interests.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join("")}`;
+}
+
 function filterRows() {
   const query = searchInput.value.trim().toLowerCase();
-  const filtered = query ? allRows.filter(row => [row.name, row.country, row.interest, row.netWorth].join(" ").toLowerCase().includes(query)) : allRows;
+  let filtered = allRows.filter(row => {
+    const matchesText = !query || [row.name, row.country, row.interest, row.netWorth].join(" ").toLowerCase().includes(query);
+    const matchesCountry = !countryFilter.value || row.country === countryFilter.value;
+    const matchesInterest = !interestFilter.value || row.interest === interestFilter.value;
+    return matchesText && matchesCountry && matchesInterest;
+  });
+  if (sortBy.value) {
+    const [field, direction] = sortBy.value.split("-");
+    filtered = [...filtered].sort((a, b) => (a[field === "worth" ? "netWorth" : field] - b[field === "worth" ? "netWorth" : field]) * (direction === "desc" ? -1 : 1));
+  }
   renderRows(filtered);
 }
 
@@ -43,6 +62,7 @@ async function readSheet(accessToken) {
   if (!response.ok) throw new Error(`Google Sheets returned ${response.status}: ${payload?.error?.message || "Check sharing and API setup."}`);
   const [, ...records] = payload.values || [];
   allRows = records.filter(row => row[0]).map(row => ({ name: row[0], photo: row[1], age: Number(row[2]) || 0, country: row[3] || "", interest: row[4] || "", netWorth: parseMoney(row[5]) }));
+  populateFilters();
   renderRows(allRows);
   dataPanel.hidden = false;
   window.dispatchEvent(new CustomEvent("sheet-data-loaded", { detail: allRows }));
@@ -70,5 +90,17 @@ function signInOnce() {
 }
 
 searchInput.addEventListener("input", filterRows);
-clearSearchButton.addEventListener("click", () => { searchInput.value = ""; filterRows(); searchInput.focus(); });
+countryFilter.addEventListener("change", filterRows);
+interestFilter.addEventListener("change", filterRows);
+sortBy.addEventListener("change", filterRows);
+clearSearchButton.addEventListener("click", () => { searchInput.value = ""; countryFilter.value = ""; interestFilter.value = ""; sortBy.value = ""; filterRows(); searchInput.focus(); });
 signInButton.addEventListener("click", signInOnce);
+window.addEventListener("person-selected", event => {
+  searchInput.value = event.detail.name;
+  countryFilter.value = "";
+  interestFilter.value = "";
+  sortBy.value = "";
+  filterRows();
+  dataPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+  setStatus(`Selected ${event.detail.name}.`, "success");
+});

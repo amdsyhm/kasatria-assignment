@@ -42,6 +42,7 @@ function makeTile(row) {
     <span>${escapeHtml(row.country)} · ${row.age}</span>
     <span>${escapeHtml(row.interest)}</span>
     <small>$${Number(row.netWorth).toLocaleString("en-US")}</small>`;
+  element.addEventListener("click", () => window.dispatchEvent(new CustomEvent("person-selected", { detail: row })));
   return new CSS3DObject(element);
 }
 
