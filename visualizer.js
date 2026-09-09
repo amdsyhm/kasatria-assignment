@@ -51,8 +51,7 @@ function makeTile(row) {
   const selectPerson = event => {
     if (performance.now() - lastSelection < 300) return;
     lastSelection = performance.now();
-    event.preventDefault();
-    if (event.type !== "pointerdown") event.stopPropagation();
+    event.stopPropagation();
     if (selectedTile) selectedTile.classList.remove("selected");
     selectedTile = element;
     selectedTile.classList.add("selected");
@@ -60,7 +59,6 @@ function makeTile(row) {
   };
   element.addEventListener("pointerdown", event => {
     pointerStart = { x: event.clientX, y: event.clientY };
-    selectPerson(event);
   });
   element.addEventListener("pointerup", event => {
     if (!pointerStart) return;
