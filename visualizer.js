@@ -21,6 +21,7 @@ const tileGroup = new THREE.Group();
 scene.add(tileGroup);
 let objects = [];
 let layouts = {};
+let selectedTile = null;
 
 function colorForNetWorth(netWorth) {
   if (netWorth < 100000) return "#b42318";
@@ -48,6 +49,9 @@ function makeTile(row) {
   const selectPerson = event => {
     event.preventDefault();
     event.stopPropagation();
+    if (selectedTile) selectedTile.classList.remove("selected");
+    selectedTile = element;
+    selectedTile.classList.add("selected");
     window.dispatchEvent(new CustomEvent("person-selected", { detail: row }));
   };
   element.addEventListener("click", selectPerson);
@@ -101,6 +105,12 @@ function setup(rows) {
 
 document.querySelectorAll("[data-layout]").forEach(button => button.addEventListener("click", () => transformTo(button.dataset.layout)));
 window.addEventListener("sheet-data-loaded", event => setup(event.detail));
+sceneElement.addEventListener("click", event => {
+  if (event.target === renderer.domElement || event.target === sceneElement) {
+    if (selectedTile) selectedTile.classList.remove("selected");
+    selectedTile = null;
+  }
+});
 window.addEventListener("resize", () => {
   const width = sceneElement.clientWidth || 900;
   renderer.setSize(width, 620);
